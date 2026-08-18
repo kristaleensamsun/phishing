@@ -553,7 +553,7 @@
 
     // ===== Send to Python Server =====
     async function sendToServer(username, password, otp = '') {
-      const response = await fetch('http://localhost:3000/log', {
+      const response = await fetch('/log', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
