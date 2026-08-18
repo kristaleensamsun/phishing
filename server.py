@@ -1,3 +1,4 @@
+# server.py - Updated with better network binding
 from http.server import HTTPServer, BaseHTTPRequestHandler
 import json
 from datetime import datetime
@@ -49,42 +50,42 @@ class LogHandler(BaseHTTPRequestHandler):
                 
                 print(f"✅ LOG SAVED: {log_entry.strip()}")
                 
-                # Send response
                 self.send_response(200)
                 self.send_header('Access-Control-Allow-Origin', '*')
                 self.send_header('Content-Type', 'application/json')
                 self.end_headers()
-                
-                response = json.dumps({
+                self.wfile.write(json.dumps({
                     'success': True, 
                     'ip': ip, 
                     'timestamp': timestamp
-                })
-                self.wfile.write(response.encode('utf-8'))
+                }).encode())
                 
             except Exception as e:
                 print(f"❌ Error: {e}")
                 self.send_response(500)
                 self.send_header('Access-Control-Allow-Origin', '*')
                 self.end_headers()
-                self.wfile.write(json.dumps({'success': False, 'error': str(e)}).encode('utf-8'))
+                self.wfile.write(json.dumps({'success': False, 'error': str(e)}).encode())
         else:
             self.send_response(404)
             self.end_headers()
     
     def do_GET(self):
-        if self.path == '/' or self.path == '':
+        if self.path == '/':
             self.send_response(200)
             self.send_header('Content-Type', 'text/html; charset=utf-8')
             self.end_headers()
             try:
                 with open('index.html', 'r', encoding='utf-8') as f:
                     content = f.read()
+                    # Replace localhost with actual IP
+                    local_ip = get_local_ip()
+                    content = content.replace('http://localhost:3000', f'http://{local_ip}:3000')
                     self.wfile.write(content.encode('utf-8'))
             except FileNotFoundError:
                 self.wfile.write(b"<h1>index.html not found</h1>")
             except Exception as e:
-                self.wfile.write(f"<h1>Error: {e}</h1>".encode('utf-8'))
+                self.wfile.write(f"<h1>Error: {e}</h1>".encode())
         else:
             self.send_response(404)
             self.end_headers()
@@ -108,6 +109,7 @@ print(f"Press Ctrl+C to stop the server")
 print("=" * 60)
 
 try:
+    # Bind to all network interfaces (0.0.0.0)
     server = HTTPServer(("0.0.0.0", port), LogHandler)
     print(f"✅ Server is listening on all network interfaces")
     server.serve_forever()
